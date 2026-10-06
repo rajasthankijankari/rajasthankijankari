@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel - Rajasthan Ki Jankari</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#f5f6f8;
+  color:#172033;
+  font-family:system-ui,-apple-system,"Segoe UI",
+  "Noto Sans Devanagari",sans-serif;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px 15px 50px;
+}
+
+.panel{
+  background:#fff;
+  border:1px solid #e3e6eb;
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+h1,h2{
+  margin-top:0;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:11px;
+  border:1px solid #cfd4dc;
+  border-radius:9px;
+  font:inherit;
+  background:#fff;
+}
+
+textarea{
+  min-height:180px;
+  resize:vertical;
+}
+
+button{
+  border:0;
+  border-radius:9px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.primary{
+  background:#b91c1c;
+  color:#fff;
+}
+
+.secondary{
+  background:#eef0f3;
+  color:#222;
+}
+
+.danger{
+  background:#7f1d1d;
+  color:#fff;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+}
+
+.message{
+  padding:11px;
+  border-radius:9px;
+  margin:10px 0;
+  display:none;
+}
+
+.success{
+  display:block;
+  background:#ecfdf3;
+  color:#166534;
+}
+
+.error{
+  display:block;
+  background:#fef2f2;
+  color:#991b1b;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.small{
+  font-size:12px;
+  color:#667085;
+}
+
+.post{
+  padding:14px 0;
+  border-top:1px solid #eee;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+}
+
+.post-title{
+  font-weight:700;
+}
+
+.badge{
+  display:inline-block;
+  font-size:11px;
+  padding:3px 7px;
+  border-radius:20px;
+  background:#eef0f3;
+}
+
+@media(max-width:700px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .post{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LOGIN -->
+
+<section id="loginBox" class="panel">
+
+<h1>Admin Login</h1>
+
+<p class="small">
+Rajasthan Ki Jankari के Admin Panel में प्रवेश करें।
+</p>
+
+<div class="grid">
+
+<div>
+<label>Email</label>
+<input
+  id="email"
+  type="email"
+  autocomplete="username"
+>
+</div>
+
+<div>
+<label>Password</label>
+<input
+  id="password"
+  type="password"
+  autocomplete="current-password"
+>
+</div>
+
+</div>
+
+<br>
+
+<button
+  id="loginBtn"
+  class="primary"
+>
+Login
+</button>
+
+<div
+  id="loginMessage"
+  class="message"
+></div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section
+  id="adminBox"
+  class="hidden"
+>
+
+<div class="panel">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+">
+
+<div>
+
+<h1>Rajasthan Ki Jankari</h1>
+
+<div
+  id="userEmail"
+  class="small"
+></div>
+
+</div>
+
+<button
+  id="logoutBtn"
+  class="secondary"
+>
+Logout
+</button>
+
+</div>
+
+</div>
+
+
+<!-- NEW POST -->
+
+<div class="panel">
+
+<h2>नई पोस्ट बनाएं</h2>
+
+<div
+  id="formMessage"
+  class="message"
+></div>
+
+
+<div class="grid">
+
+<div>
+
+<label>
+शीर्षक *
+</label>
+
+<input
+  id="title"
+  type="text"
+  placeholder="पोस्ट का पूरा शीर्षक"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Slug *
+</label>
+
+<input
+  id="slug"
+  type="text"
+  placeholder="post-url-slug"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Category *
+</label>
+
+<select id="category">
+
+<option value="">
+Category चुनें
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+Featured Image
+</label>
+
+<input
+  id="image"
+  type="file"
+  accept="image/*"
+>
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<label>
+Short Description
+</label>
+
+<textarea
+  id="excerpt"
+  style="min-height:100px"
+  placeholder="पोस्ट का छोटा विवरण..."
+></textarea>
+
+
+<br>
+
+
+<label>
+पूरी जानकारी / Content
+</label>
+
+<textarea
+  id="content"
+  placeholder="यहाँ पूरी खबर लिखें..."
+></textarea>
+
+
+<br>
+
+
+<div class="grid">
+
+<div>
+
+<label>
+SEO Title
+</label>
+
+<input
+  id="seoTitle"
+  type="text"
+>
+
+</div>
+
+
+<div>
+
+<label>
+SEO Description
+</label>
+
+<input
+  id="seoDescription"
+  type="text"
+>
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<div class="actions">
+
+<button
+  id="publishBtn"
+  class="primary"
+>
+Publish
+</button>
+
+<button
+  id="draftBtn"
+  class="secondary"
+>
+Save Draft
+</button>
+
+<button
+  id="clearBtn"
+  class="secondary"
+>
+Clear
+</button>
+
+</div>
+
+</div>
+
+
+<!-- POSTS -->
+
+<div class="panel">
+
+<h2>Posts</h2>
+
+<div
+  id="postsList"
+>
+लोड हो रहा है...
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+"https://utemehvehgpmlwmdzfej.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_Iw3sPVcGnErK3dVjXGdT6w_IfYS7Nqh";
+
+
+const db =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* ELEMENT */
+
+const $ = id =>
+document.getElementById(id);
+
+
+/* MESSAGE */
+
+function showMessage(
+  element,
+  text,
+  success=false
+){
+
+  element.textContent = text;
+
+  element.className =
+    "message " +
+    (success ? "success" : "error");
+
+}
+
+
+/* SLUG */
+
+function makeSlug(text){
+
+  return text
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\u0900-\u097f\s-]/g,"")
+    .replace(/\s+/g,"-")
+    .replace(/-+/g,"-")
+    .replace(/^-|-$/g,"");
+
+}
+
+
+/* TITLE → SLUG */
+
+$("title").addEventListener(
+"input",
+function(){
+
+  if(!$("slug").dataset.manual){
+
+    $("slug").value =
+      makeSlug($("title").value);
+
+  }
+
+});
+
+
+$("slug").addEventListener(
+"input",
+function(){
+
+  $("slug").dataset.manual = "true";
+
+});
+
+
+/* CATEGORIES */
+
+async function loadCategories(){
+
+  const {
+    data,
+    error
+  } = await db
+    .from("categories")
+    .select("id,name")
+    .eq("is_active",true)
+    .order("sort_order");
+
+
+  if(error){
+
+    showMessage(
+      $("formMessage"),
+      "Category load नहीं हो पाई।"
+    );
+
+    return;
+
+  }
+
+
+  $("category").innerHTML =
+    '<option value="">Category चुनें</option>' +
+
+    data.map(category =>
+
+      `<option value="${category.id}">
+        ${category.name}
+      </option>`
+
+    ).join("");
+
+}
+
+
+/* IMAGE UPLOAD */
+
+async function uploadImage(file){
+
+  if(!file){
+    return null;
+  }
+
+
+  const extension =
+    (
+      file.name
+      .split(".")
+      .pop() || "jpg"
+    ).toLowerCase();
+
+
+  const path =
+    "posts/" +
+    crypto.randomUUID() +
+    "." +
+    extension;
+
+
+  const {
+    error
+  } =
+    await db
+      .storage
+      .from("site-media")
+      .upload(
+        path,
+        file,
+        {
+          upsert:false,
+          contentType:file.type
+        }
+      );
+
+
+  if(error){
+    throw error;
+  }
+
+
+  const {
+    data
+  } =
+    db
+      .storage
+      .from("site-media")
+      .getPublicUrl(path);
+
+
+  return data.publicUrl;
+
+}
+
+
+/* SAVE */
+
+async function savePost(status){
+
+  const title =
+    $("title").value.trim();
+
+  const slug =
+    (
+      $("slug").value.trim() ||
+      makeSlug(title)
+    );
+
+
+  const category =
+    $("category").value;
+
+
+  if(!title){
+
+    showMessage(
+      $("formMessage"),
+      "Title जरूरी है।"
+    );
+
+    return;
+
+  }
+
+
+  if(!slug){
+
+    showMessage(
+      $("formMessage"),
+      "Slug जरूरी है।"
+    );
+
+    return;
+
+  }
+
+
+  if(!category){
+
+    showMessage(
+      $("formMessage"),
+      "Category चुनना जरूरी है।"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    showMessage(
+      $("formMessage"),
+      "Post save हो रही है...",
+      true
+    );
+
+
+    let imageUrl = null;
+
+
+    const file =
+      $("image").files[0];
+
+
+    if(file){
+
+      imageUrl =
+        await uploadImage(file);
+
+    }
+
+
+    const row = {
+
+      title:title,
+
+      slug:slug,
+
+      category_id:category,
+
+      excerpt:
+        $("excerpt").value.trim(),
+
+      content:
+        $("content").value,
+
+      featured_image:
+        imageUrl,
+
+      status:status,
+
+      published_at:
+        status === "published"
+          ? new Date().toISOString()
+          : null,
+
+      seo_title:
+        $("seoTitle").value.trim() ||
+        title,
+
+      seo_description:
+        $("seoDescription")
+          .value
+          .trim() ||
+        $("excerpt")
+          .value
+          .trim(),
+
+      author_name:
+        "Rajasthan Ki Jankari"
+
+    };
+
+
+    const {
+      error
+    } =
+      await db
+        .from("posts")
+        .insert(row);
+
+
+    if(error){
+      throw error;
+    }
+
+
+    showMessage(
+      $("formMessage"),
+      status === "published"
+        ? "Post successfully publish हो गई।"
+        : "Draft successfully save हो गया।",
+      true
+    );
+
+
+    clearForm();
+
+    loadPosts();
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    showMessage(
+      $("formMessage"),
+      error.message ||
+      "Post save नहीं हो पाई।"
+    );
+
+  }
+
+}
+
+
+/* CLEAR */
+
+function clearForm(){
+
+  $("title").value = "";
+
+  $("slug").value = "";
+
+  delete $("slug").dataset.manual;
+
+  $("excerpt").value = "";
+
+  $("content").value = "";
+
+  $("seoTitle").value = "";
+
+  $("seoDescription").value = "";
+
+  $("image").value = "";
+
+}
+
+
+/* POSTS */
+
+async function loadPosts(){
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("posts")
+      .select(`
+        id,
+        title,
+        slug,
+        status,
+        published_at,
+        created_at,
+        categories(name)
+      `)
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    $("postsList").textContent =
+      "Posts load नहीं हो पाईं।";
+
+    return;
+
+  }
+
+
+  if(!data || data.length === 0){
+
+    $("postsList").innerHTML =
+      '<div class="small">अभी कोई post नहीं है।</div>';
+
+    return;
+
+  }
+
+
+  $("postsList").innerHTML =
+    data.map(post => {
+
+      return `
+
+        <div class="post">
+
+          <div>
+
+            <div class="post-title">
+              ${escapeHTML(post.title)}
+            </div>
+
+            <div class="small">
+
+              ${escapeHTML(
+                post.categories?.name || ""
+              )}
+
+              •
+
+              <span class="badge">
+                ${post.status}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* ESCAPE */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/[&<>"']/g,function(char){
+
+      const map = {
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      };
+
+      return map[char];
+
+    });
+
+}
+
+
+/* LOGIN */
+
+$("loginBtn").addEventListener(
+"click",
+async function(){
+
+  const email =
+    $("email").value.trim();
+
+  const password =
+    $("password").value;
+
+
+  if(!email || !password){
+
+    showMessage(
+      $("loginMessage"),
+      "Email और password डालें।"
+    );
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await db.auth.signInWithPassword({
+      email:email,
+      password:password
+    });
+
+
+  if(error){
+
+    showMessage(
+      $("loginMessage"),
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  location.reload();
+
+});
+
+
+/* LOGOUT */
+
+$("logoutBtn").addEventListener(
+"click",
+async function(){
+
+  await db.auth.signOut();
+
+  location.reload();
+
+});
+
+
+/* BUTTONS */
+
+$("publishBtn").addEventListener(
+"click",
+function(){
+  savePost("published");
+});
+
+
+$("draftBtn").addEventListener(
+"click",
+function(){
+  savePost("draft");
+});
+
+
+$("clearBtn").addEventListener(
+"click",
+function(){
+  clearForm();
+});
+
+
+/* INITIALIZE */
+
+async function initialize(){
+
+  const {
+    data
+  } =
+    await db.auth.getSession();
+
+
+  const session =
+    data.session;
+
+
+  if(!session){
+
+    $("loginBox")
+      .classList
+      .remove("hidden");
+
+    return;
+
+  }
+
+
+  $("loginBox")
+    .classList
+    .add("hidden");
+
+
+  $("adminBox")
+    .classList
+    .remove("hidden");
+
+
+  $("userEmail").textContent =
+    session.user.email || "";
+
+
+  const role =
+    session.user
+      .app_metadata
+      ?.role;
+
+
+  if(role !== "admin"){
+
+    showMessage(
+      $("formMessage"),
+      "यह account admin नहीं है। Supabase Auth में app_metadata.role = admin सेट करना होगा।"
+    );
+
+    return;
+
+  }
+
+
+  await loadCategories();
+
+  await loadPosts();
+
+}
+
+
+initialize();
+
+</script>
+
+</body>
+</html>
